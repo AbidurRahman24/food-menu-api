@@ -18,16 +18,24 @@
 //       loadData(data)
 //     });
 // })
-
+const searchBtn = document.getElementById('meal');
+searchBtn.addEventListener('keyup', () => {
+    // searchBtn.value
+    // const inputCity = document.getElementById('meal').value;
+    getWeatherData(searchBtn.value)
+})
 const getWeatherData = ()=> {
     fetch("https://www.themealdb.com/api/json/v1/1/filter.php?i")
+
+    
         .then(response => response.json())
         .then(data => {
-            // console.log(data);
-            // loadData(data)
+            // console.log(data.meals);
+            loadData(data)
             let html = "";
         if(data.meals){
             data.meals.forEach(meal => {
+                // console.log(meal.strMeal);
                 html += `
                     <div class = "meal-item" data-id = "${meal.idMeal}">
                         <div class = "meal-img">
@@ -45,35 +53,32 @@ const getWeatherData = ()=> {
             html = "Sorry, we didn't find any meal!";
             mealList.classList.add('notFound');
         }
-
+        
         // mealList.innerHTML = html;
         })
+        
 }
 
-const searchBtn = document.getElementById('search_button');
-searchBtn.addEventListener('click', () => {
-    const inputCity = document.getElementById('meal').value;
-    getWeatherData(inputCity)
-})
+
 
 
 
 const loadData= (meal)=>{
     const div = document.getElementById("food-container")
-    // meal.meals.forEach(element => {
-    //     // console.log(element);
-    //     const mealsDiv = document.createElement('div')
-    //     mealsDiv.className = 'meal'
-    //     const {strMeal, strMealThumb} = element
-    //     mealsDiv.innerHTML = `
-    //     <div>
-    //     <button onclick='displayMeal("${element.strMeal}")'> <img src="${strMealThumb}" alt="">
-    //     </button>
-    //     </div>
-    //     <p>${strMeal}</p>
-    //     `
-    //     div.appendChild(mealsDiv)
-    // });
+    meal.meals.forEach(element => {
+        // console.log(element);
+        const mealsDiv = document.createElement('div')
+        mealsDiv.className = 'meal'
+        const {strMeal, strMealThumb} = element
+        mealsDiv.innerHTML = `
+        <div>
+        <button onclick='displayMeal("${element.strMeal}")'> <img src="${strMealThumb}" alt="">
+        </button>
+        </div>
+        <p>${strMeal}</p>
+        `
+        div.appendChild(mealsDiv)
+    });
 
     
 }
